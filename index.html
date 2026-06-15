@@ -1,47 +1,99 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Inventory Dashboard</title>
-    <style>
-        body {
-            font-family: Arial;
-            margin: 30px;
-        }
+<meta charset="UTF-8">
+<title>Inventory Dashboard</title>
 
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:20px;
+    background:#f5f5f5;
+}
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 5px rgba(0,0,0,.1);
+    margin-bottom:20px;
+}
 
-        th {
-            background: #0078D4;
-            color: white;
-        }
-    </style>
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:10px;
+}
+
+th{
+    background:#0078d4;
+    color:white;
+}
+</style>
+
 </head>
+
 <body>
 
 <h1>Inventory Dashboard</h1>
 
+<div class="card">
+<h2>Total Assets</h2>
+<h1 id="totalAssets">0</h1>
+</div>
+
 <table>
-    <tr>
-        <th>Item</th>
-        <th>Quantity</th>
-    </tr>
-    <tr>
-        <td>Laptop</td>
-        <td>15</td>
-    </tr>
-    <tr>
-        <td>Monitor</td>
-        <td>23</td>
-    </tr>
+<thead>
+<tr>
+<th>Inventory No</th>
+<th>Brand</th>
+<th>Model</th>
+<th>Status</th>
+<th>Location</th>
+</tr>
+</thead>
+
+<tbody id="inventoryTable">
+</tbody>
+
 </table>
+
+<script>
+
+const data = [
+{
+inventory:"CH30-24485071",
+brand:"LENOVO",
+model:"X1 Carbon Gen9",
+status:"Assigned",
+location:"SM"
+}
+];
+
+document.getElementById("totalAssets").innerText = data.length;
+
+let html = "";
+
+data.forEach(item=>{
+html += `
+<tr>
+<td>${item.inventory}</td>
+<td>${item.brand}</td>
+<td>${item.model}</td>
+<td>${item.status}</td>
+<td>${item.location}</td>
+</tr>
+`;
+});
+
+document.getElementById("inventoryTable").innerHTML = html;
+
+</script>
 
 </body>
 </html>
