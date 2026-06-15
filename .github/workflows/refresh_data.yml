@@ -1,0 +1,38 @@
+name: Refresh Inventory Data
+
+on:
+  schedule:
+    - cron: '0 17 * * *' # รันอัตโนมัติทุกๆ เที่ยงคืนไทย
+  workflow_dispatch: # เปิดปุ่มให้กดรันเองแบบ Manual ได้
+
+jobs:
+  refresh-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        pip install requests pandas openpyxl
+
+    - name: Run Update Script
+      env:
+        MICROSOFT_TENANT_ID: ${{ secrets.MICROSOFT_TENANT_ID }}
+        MICROSOFT_CLIENT_ID: ${{ secrets.MICROSOFT_CLIENT_ID }}
+        MICROSOFT_CLIENT_SECRET: ${{ secrets.MICROSOFT_CLIENT_SECRET }}
+      run: |
+        python update_data.py
+
+    - name: Commit and Push to Repository
+      run: |
+        git config --global user.name 'GitHub Action Bot'
+        git config --global user.email 'action@github.com'
+        git add index.html
+        git commit -m "Automated Data Update: SharePoint to GitHub" || exit 0
+        git push
