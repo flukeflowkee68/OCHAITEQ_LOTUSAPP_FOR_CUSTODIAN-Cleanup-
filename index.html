@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory Dashboard</title>
+    <title>UN Inventory Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-color: #f8fafc;
-            --primary-color: #0f172a;
-            --accent-color: #0284c7;
+            --bg-color: #f4f7f9;
+            --primary-color: #1e3a8a; /* สีกรมท่าเข้มสำหรับ Header */
+            --un-blue: #009EDB;       /* สีฟ้า UN Blue แท้ */
+            --un-blue-light: #e6f5fc; /* สีฟ้าอ่อนพาสเทลสำหรับ Badge */
             --card-bg: #ffffff;
             --text-main: #334155;
             --text-muted: #64748b;
@@ -40,13 +41,15 @@
         /* Header Style */
         header {
             margin-bottom: 32px;
+            border-left: 4px solid var(--un-blue); /* เส้นขอบข้างชื่อเป็นสีฟ้า UN */
+            padding-left: 16px;
         }
 
         h1 {
             font-size: 28px;
             font-weight: 700;
             color: var(--primary-color);
-            margin: 0 0 8px 0;
+            margin: 0 0 6px 0;
             letter-spacing: -0.5px;
         }
 
@@ -70,144 +73,8 @@
             border-radius: 12px;
             border: 1px solid var(--border-color);
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card-title {
-            font-size: 13px;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-            letter-spacing: 0.5px;
-        }
-
-        .card-value {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--primary-color);
-            line-height: 1;
-        }
-
-        /* Data Table Styling */
-        .table-container {
-            background: var(--card-bg);
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+            position: relative;
             overflow: hidden;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 14px;
-        }
-
-        th {
-            background: #f1f5f9;
-            color: var(--text-main);
-            font-weight: 600;
-            padding: 16px 24px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        td {
-            padding: 16px 24px;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-main);
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        tr:hover td {
-            background-color: #f8fafc;
-        }
-
-        /* Badge Status Component */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 12px;
-            border-radius: 9999px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .badge-assigned {
-            background-color: var(--success-bg);
-            color: var(--success-text);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            body { padding: 20px 12px; }
-            th, td { padding: 12px 16px; }
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <header>
-        <h1>IT Asset Inventory</h1>
-        <p class="subtitle">Overview of current organization assets and hardware deployment.</p>
-    </header>
-
-    <div class="kpi-grid">
-        <div class="card">
-            <span class="card-title">Total Assets</span>
-            <span class="card-value" id="totalAssets">0</span>
-        </div>
-        </div>
-
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Inventory No</th>
-                    <th>Brand</th>
-                    <th>Model</th>
-                    <th>Status</th>
-                    <th>Location</th>
-                </tr>
-            </thead>
-            <tbody id="inventoryTable">
-                </tbody>
-        </table>
-    </div>
-</div>
-
-<script>
-    // ตัวอย่างข้อมูล (เพิ่มตัวอย่างเพื่อให้เห็นมิติของตาราง)
-    const data = [
-        {
-            inventory: "CH30-24485071",
-            brand: "LENOVO",
-            model: "X1 Carbon Gen9",
-            status: "Assigned",
-            location: "SM"
-        },
-        {
-            inventory: "CH30-24485072",
-            brand: "HP",
-            model: "EliteBook 840 G8",
-            status: "Assigned",
-            location: "HQ"
-        }
-    ];
-
-    // อัปเดตตัวเลขจำนวน Asset ทั้งหมด
-    document.getElementById("totalAssets").innerText = data.length;
-
-    // ทำการ Loop เพื่อสร้างตารางข้อมูล
-    let html = "";
-    data.forEach(item => {
-        html += `
-            <tr>
-                <td style="font-weight: 500; color: #0284c7;">${item.inventory}</td>
-                <td>${item
+        /* แถบสีฟ้าจ
